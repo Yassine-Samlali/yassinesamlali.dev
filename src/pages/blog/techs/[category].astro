@@ -1,0 +1,54 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import BlogPost from "../../../components/blog/BlogPost.astro";
+import Heading from "../../../components/ui/Heading.astro";
+import {
+  getPublicBlogPosts,
+  mapMarkdownPosts,
+  type PublicBlogPost,
+} from "../../../utils/publicBlogApi";
+
+export async function getStaticPaths(): Promise<Array<{params: {category: string}, props: {posts: PublicBlogPost[]}}>>{
+  const markdownPosts = await Astro.glob("../posts/*.md");
+  const apiPosts = await getPublicBlogPosts();
+  const allPosts = apiPosts.length > 0 ? apiPosts : mapMarkdownPosts(markdownPosts);
+
+  const uniqueCategories: string[] = [
+    ...new Set(allPosts.map((post) => post.languages).flat()),
+  ];
+
+  return uniqueCategories.map((category) => {
+    const filteredPosts = allPosts.filter((post) =>
+      post.languages.includes(category)
+    );
+    return {
+      params: { category },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { category } = Astro.params;
+const { posts } = Astro.props as { posts: PublicBlogPost[] };
+---
+
+<Layout pageTitle={category} >
+  <section class="py-8">
+    <div class="flex flex-col gap-8 max-w-4xl mx-auto">
+      <Heading text="Posts about" textGradient={category}  />
+
+      {
+        posts.map((post) => (
+          <BlogPost
+            url={post.url}
+            title={post.title}
+            date={post.date}
+            tags={post.tags}
+            languages={post.languages}
+            image={post.image}
+          />
+        ))
+      }
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,68 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import BlogPost from '../../../components/blog/BlogPost.astro';
+import Heading from '../../../components/ui/Heading.astro';
+import {
+  getPublicBlogPosts,
+  mapMarkdownPosts,
+  type PublicBlogPost,
+} from '../../../utils/publicBlogApi';
+
+export async function getStaticPaths() {
+        const normalizeTag = (value: string) =>
+            value
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9\s-]/g, "")
+                .replace(/\s+/g, "-");
+
+        const toDisplayTag = (value: string) =>
+            value
+                .split("-")
+                .filter(Boolean)
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+
+    const markdownPosts = await Astro.glob("../posts/*.md");
+    const apiPosts = await getPublicBlogPosts();
+    const allPosts = apiPosts.length > 0 ? apiPosts : mapMarkdownPosts(markdownPosts);
+
+    const uniqueTags: string[] = [
+        ...new Set(allPosts.map((post) => post.tags).flat().map((tag) => normalizeTag(tag)).filter(Boolean)),
+    ];
+
+    return uniqueTags.map((tag) => {
+        const filteredPosts = allPosts.filter((post) =>
+            post.tags.some((postTag) => normalizeTag(postTag) === tag),
+        );
+        return {
+            params: { tag },
+            props: {
+              posts: filteredPosts,
+              displayTag: toDisplayTag(tag),
+            },
+        };
+    });
+}
+
+const { tag } = Astro.params;
+const { posts, displayTag } = Astro.props as {
+  posts: PublicBlogPost[];
+  displayTag: string;
+};
+---
+
+<Layout pageTitle={tag}  >
+    <section class="py-8">
+        <div class="flex flex-col gap-8 max-w-4xl mx-auto">
+            <Heading text="Posts about" textGradient={displayTag || tag}/>
+            {
+                posts.map((post) => (
+                    <BlogPost url={post.url} title={post.title} date={post.date } tags={post.tags }  languages={post.languages } image={post.image } />
+                ))
+            }
+        </div>
+    </section>
+
+</Layout>
+

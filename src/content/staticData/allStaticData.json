@@ -1,0 +1,39 @@
+{
+    "profileImage": "/images/efeeleprofile.jpg",
+    "profileAlt": "Profile photo of Yassine Samlali",
+    "profileLink": "/about-me",
+    "profileTitle": "Web Developer",
+    "profileName": "Yassine Samlali",
+    "github": "https://github.com/",
+    "githubText": "Check my GitHub profile",
+    "portfolioImage": "/images/portfolio.webp",
+    "email": "samlaliyassine6@gmail.com",
+    "linkedin": "https://www.linkedin.com/",
+    "instagram": "https://www.instagram.com/",
+    "youtube": "https://www.youtube.com/",
+    "alias": "Yassine Samlali",
+    "contactSectionTitle": "Ready to build your next web project?",
+    "contactSectionSubtitle": "Let's work together.",
+    "contactSectionButtonText": "Contact Me",
+    "contactSectionButtonIcon": "paperplane",
+    "techsTitle": "SKILLS",
+    "instagramIconName": "instagram",
+    "youtubeIconName": "youtube",
+    "githubIconName": "github",
+    "linkedinIconName": "linkedin",
+    "emailIconName": "envelope",
+    "hobbies": [
+        "Problem Solving",
+        "Fast Learner",
+        "Communication",
+        "Teaching",
+        "Mentoring",
+        "Teamwork"
+    ],
+    "pageTitle": "Yassine Samlali | Front-End Developer",
+    "pageDescription": "Web developer from Morocco, focused on modern, responsive, and user-friendly web applications.",
+    "OGImage": {
+        "url": "/images/imagedefault.webp",
+        "alt": "Portfolio homepage for Yassine Samlali, Front-End Developer and Web Development Instructor."
+    }
+}

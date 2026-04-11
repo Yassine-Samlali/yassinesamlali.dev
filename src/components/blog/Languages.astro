@@ -1,0 +1,33 @@
+---
+import Capsule from "../ui/Capsule.astro";
+import {
+    getPublicBlogPosts,
+    mapMarkdownPosts,
+} from "../../utils/publicBlogApi";
+
+const markdownPosts = await Astro.glob("../../pages/blog/posts/*.md");
+const apiPosts = await getPublicBlogPosts();
+
+const posts = apiPosts.length > 0 ? apiPosts : mapMarkdownPosts(markdownPosts);
+const languages = [...new Set(posts.map((post) => post.languages).flat())];
+
+const { variant = "default" } = Astro.props;
+
+const baseClasses = "flex flex-wrap";
+
+const variantClasses = {
+    default: "gap-3 max-lg:gap-1",
+    vertical: "gap-6 flex-col"
+} as const;
+
+const classes = `${baseClasses} ${variantClasses[variant as keyof typeof variantClasses] || variantClasses.default}`;
+---
+
+<div class={classes}>
+    {languages.map((language) => (
+        <Capsule lang={language} linkEnabled={true} size="md" />
+    ))}
+</div>
+
+
+

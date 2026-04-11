@@ -1,0 +1,60 @@
+---
+import ExperienceItem from "./ExperienceItem.astro";
+import Heading from "../ui/Heading.astro";
+import { Icon } from "astro-icon/components";
+
+const EXPERIENCE = [
+  {
+    date: "2025 | 8 months",
+    title: "Web Development Instructor",
+    company: "ISFIM",
+    description:
+      "Taught students HTML, CSS, and JavaScript fundamentals, guided them through real-world projects, and simplified complex topics for beginners while supporting debugging and problem-solving.",
+  },
+  {
+    date: "2024",
+    title: "Internship",
+    company: "Commune of Tinejdad",
+    description:
+      "Supported internal web and IT development tasks, collaborated on administrative digitalization initiatives, and contributed to day-to-day technical improvements.",
+  },
+  {
+    date: "2023",
+    title: "Internship",
+    company: "Commune of Tinejdad",
+    description:
+      "Assisted with practical software and web development activities, documentation, and troubleshooting to support municipality workflows.",
+  },
+];
+---
+
+<section class="py-8 px-8 max-md:py-4 mb-4 scroll-m-16" id="experience">
+  <div class="flex flex-col pt-8 max-w-4xl mx-auto">
+    <div class="flex gap-4 items-center justify-center">
+      <Icon class="text-3xl dark:text-white text-blacktext" name="briefcase" />
+      <Heading text="Work" textGradient="Experience" level={2} />
+    </div>
+
+    <div class="relative max-md:mt-0 mt-8" aria-label="Professional experience">
+      <ol class="relative mt-10">
+        {
+          EXPERIENCE.map((experience, index) => (
+            <li>
+              <article
+                role="article"
+                aria-labelledby={`experience-title-${index}`}
+              >
+                <div
+                  class="flex flex-col gap-2  text-zinc-00 dark:text-zinc-300 md:col-span-3"
+                  aria-describedby={`experience-title-${index}`}
+                >
+                  <ExperienceItem {...experience} />
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Languages from "../../../components/blog/Languages.astro";
+import Heading from "../../../components/ui/Heading.astro";
+
+const pageTitle = "Technologies";
+---
+
+<Layout pageTitle={pageTitle}>
+    <section class="py-8">
+        <div class="flex flex-col gap-8 max-w-3xl mx-auto">
+            <Heading text="Technologies" />
+            <Languages variant="vertical" />
+        </div>
+    </section>
+</Layout>

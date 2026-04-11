@@ -1,0 +1,120 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import DatePub from "../../../../components/blog/DatePub.astro";
+import Capsule from "../../../../components/ui/Capsule.astro";
+import Tag from "../../../../components/ui/Tag.astro";
+import Contact from "../../../../components/portfolio/Contact.astro";
+import {
+  getPublicBlogPosts,
+  getPublicBlogPostDetailBySlug,
+  type PublicBlogPostDetail,
+} from "../../../../utils/publicBlogApi";
+
+export async function getStaticPaths() {
+  const posts = await getPublicBlogPosts();
+
+  return posts
+    .filter((post) => post.source === "devto")
+    .map((post) => ({
+      params: { slug: post.slug },
+    }));
+}
+
+const { slug } = Astro.params;
+const post = (slug
+  ? await getPublicBlogPostDetailBySlug(slug)
+  : null) as PublicBlogPostDetail | null;
+
+if (!post) {
+  throw new Error(`Post not found for slug: ${slug}`);
+}
+
+const pageTitle = `${post.title} | Blog`;
+const description = post.description;
+---
+
+<Layout pageTitle={pageTitle} description={description} ogimage={post.image}>
+  <section class="relative mx-auto px-8 max-sm:px-4 flex flex-row justify-center gap-6">
+    <div class="w-64 max-xl:hidden"></div>
+
+    <article class="flex flex-col gap-6 max-w-3xl max-md:w-full pb-10 pt-8 mt-8 px-14 max-md:px-10 max-sm:px-4 dark:bg-transparent bg-white dark:border-0 border border-neutral-100 rounded-2xl">
+      <header class="flex flex-col gap-4" id="start">
+        <DatePub date={post.date} />
+
+        <h1 class="dark:text-mint-50 text-blacktext text-4xl max-xl:text-3xl font-bold text-pretty">
+          {post.title}
+        </h1>
+
+        <p class="text-base text-zinc-600 dark:text-zinc-300">
+          {post.description}
+        </p>
+
+        <div class="flex flex-wrap gap-2 items-center">
+          <span class="text-sm text-zinc-600 dark:text-zinc-300">By</span>
+          <a
+            href={post.author.profileUrl || post.originalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm font-semibold text-mint-500 hover:text-mint-400 transition-all"
+          >
+            {post.author.name}
+            {post.author.username ? ` (@${post.author.username})` : ""}
+          </a>
+          {
+            post.readingTimeMinutes && (
+              <span class="text-sm text-zinc-600 dark:text-zinc-300">
+                • {post.readingTimeMinutes} min read
+              </span>
+            )
+          }
+        </div>
+
+        <div class="flex gap-2 flex-wrap">
+          {post.languages.map((language) => <Capsule lang={language} />)}
+        </div>
+
+        <div class="gap-2 flex flex-wrap justify-start items-center">
+          {post.tags.map((tag) => <Tag tag={tag}>{tag}</Tag>)}
+        </div>
+      </header>
+
+      {
+        post.image?.url && (
+          <figure>
+            <img
+              class="w-full rounded-xl"
+              src={post.image.url}
+              alt={post.image.alt || post.title}
+              loading="lazy"
+            />
+          </figure>
+        )
+      }
+
+      <div class="markdown" set:html={post.contentHtml} />
+
+      <footer class="rounded-xl border border-mint-200/40 dark:border-zinc-700 p-4 bg-mint-50/40 dark:bg-zinc-900/40">
+        <h2 class="text-base font-semibold text-blacktext dark:text-mint-100">
+          Credits
+        </h2>
+        <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-2">
+          This post is based on content written by {post.author.name}. Full credit
+          belongs to the original author.
+        </p>
+        {
+          post.originalUrl && (
+            <a
+              href={post.originalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block mt-3 text-sm font-semibold text-mint-500 hover:text-mint-400 transition-all"
+            >
+              View original article on DEV Community
+            </a>
+          )
+        }
+      </footer>
+    </article>
+  </section>
+  <Contact />
+</Layout>
