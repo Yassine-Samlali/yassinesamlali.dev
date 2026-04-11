@@ -1,7 +1,5 @@
 
-# NeonMint Template Documentation
-
-![neonmint](https://github.com/user-attachments/assets/ae539704-2292-492f-882c-c90595b34717)
+# Yassine Portfolio Documentation
 
 ## 👤 Creator
 
