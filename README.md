@@ -9,9 +9,7 @@ Astro portfolio and blog template for developers and digital creators.
 
 - Name: Yassine Samlali
 - GitHub: https://github.com/Yassine-Samlali
-- GitHub Email: otakuyassine3@gmail.com
-
-Note: The email above is for GitHub account/contact information. Website contact data is configured separately in `src/content/staticData/allStaticData.json`.
+- Email: samlaliyassine6@gmail.com
 
 ## Overview
 
