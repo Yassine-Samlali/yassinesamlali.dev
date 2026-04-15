@@ -3,7 +3,7 @@
 
 Astro portfolio and blog template for developers and digital creators.
 
-![Template preview](https://github.com/user-attachments/assets/ae539704-2292-492f-882c-c90595b34717)
+![Template preview](./public/images/projects/neonmint.jpeg)
 
 ## Maintainer
 

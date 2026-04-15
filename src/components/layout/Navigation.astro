@@ -3,7 +3,7 @@ import Social from "../ui/Social.astro";
 import { getCollection } from "astro:content";
 
 const [staticData] = await getCollection("staticData");
-const { github, githubIconName, linkedin, linkedinIconName } = staticData.data;
+const { github, githubIconName } = staticData.data;
 
 const { items = [] }: { items: (keyof typeof menu)[] } = Astro.props as {
   items: (keyof typeof menu)[];
@@ -164,6 +164,5 @@ const baseClasses = {
     aria-label="Social Media Links"
   >
     <Social link={github} iconName={githubIconName} />
-    <Social link={linkedin} iconName={linkedinIconName} />
   </div>
 </nav>
